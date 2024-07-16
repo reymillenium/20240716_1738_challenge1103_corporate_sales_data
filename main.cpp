@@ -46,6 +46,7 @@
 #include <regex> // For regex, regex_match
 #include <cstring> // For strrev
 #include <filesystem>
+#include <map>
 
 using std::cout;
 using std::endl;
@@ -160,7 +161,7 @@ int neatSumOfIntegersInArray(const int [], int);
 
 // Calculates the sum of all the elements inside an array of integers
 template<int N>
-int sumOfIntegersWithRangeOverReference(int (&)[N]);
+int templateSumOfIntegersInArray(int (&)[N]);
 
 // Calculates the sum of all the elements inside an array of doubles
 double simpleSumOfDoublesInArray(const double [], int);
@@ -259,40 +260,6 @@ vector<string> getLinesFromFile(const string &);
 // Either creates a .txt file and adds text to it, or adds to an existent one
 void addTextToFile(const string &);
 
-// Converts a giving string to lowercase
-void strToLowerCase(string &input);
-
-// Converts a giving string to uppercase
-void strToUpperCase(string &input);
-
-// Converts a string to lowercase and returns it
-string getLowerCase(string input);
-
-// Converts a string to uppercase and returns it
-string getUpperCase(string input);
-
-
-// CUSTOM MADE FUNCTIONS PROTOTYPES
-
-
-template<int N>
-void loadRainfalls(const vector<string> &, double (&)[N]);
-
-template<int N>
-void loadRainfallsPlus(const vector<string> &, double (&)[N]);
-
-// template<size_t a, size_t b>
-template<int N, int M>
-void loadMonkeysFoodArray(const vector<string> &, double (&)[N][M]);
-
-template<int N, int M>
-void loadMonkeysFoodArraySlim(const vector<string> &, double (&)[N][M]);
-
-string getLeastRainfallMonth(const vector<string> &, double [], int);
-
-string getMostRainfallMonth(const vector<string> &, double [], int);
-
-void displayResults(double, double, double);
 
 // class MonthlyRainLog {
 // public:
@@ -310,9 +277,64 @@ void displayResults(double, double, double);
 //     }
 // };
 
+enum DivisionName { East, West, North, South };
+
+std::map<DivisionName, string> DIVISION_NAME_MAPPER = {
+    {East, "East"},
+    {West, "West"},
+    {North, "North"},
+    {South, "South"}
+};
+
+
+struct Division {
+    DivisionName eDivisionName;
+    double quarterlySales[4] {0.0, 0.0, 0.0, 0.0};
+
+
+    [[nodiscard]] double totalAnnualSales() {
+        return templateSumOfDoublesInArray(quarterlySales);
+    }
+
+    [[nodiscard]] double averageQuarterlySales() {
+        return templateAverageAmongDoublesInArray(quarterlySales);
+    }
+
+    [[nodiscard]] string name() {
+        return DIVISION_NAME_MAPPER[eDivisionName];
+    }
+
+    // // Division() = default;
+    // explicit Division(DivisionName aDivisionName) {
+    //      eDivisionName = aDivisionName;
+    //  }
+    // explicit Division(const DivisionName aDivisionName): eDivisionName(aDivisionName) {
+    // }
+};
+
+
+// CUSTOM MADE FUNCTIONS PROTOTYPES
+
+vector<Division> basicDivisionsInitializer();
+
+void getDivisionsQuarterSales(vector<Division> &);
+
+void displayResults(vector<Division> divisions);
+
+
 // Main Function
 int main() {
-    cout << "Hello, World!" << endl;
+    vector<Division> divisions; // All the divisions
+
+    // Basic initialization with all the 4 existing divisions
+    divisions = basicDivisionsInitializer();
+
+    // Gets from the user all the sales of all the quarters and for all the divisions
+    getDivisionsQuarterSales(divisions);
+
+    // Displays all the results to the user
+    displayResults(divisions);
+
     return 0;
 }
 
@@ -599,7 +621,7 @@ int neatSumOfIntegersInArray(const int integersArray[], const int length) {
 
 // Calculates the sum of all the elements inside an array of integers
 template<int N>
-int sumOfIntegersWithRangeOverReference(int (&integersArray)[N]) {
+int templateSumOfIntegersInArray(int (&integersArray)[N]) {
     int sum = 0;
     for (auto number: integersArray) {
         sum += number;
@@ -676,7 +698,7 @@ double neatAverageAmongDoublesInArray(const double array[], const int length) {
 template<int N>
 double templateAverageAmongDoublesInArray(double (&doublesArray)[N]) {
     const int length = sizeof(doublesArray) / sizeof(doublesArray[0]);
-    return sumOfDoublesWithRangeOverReference(doublesArray) / length;
+    return templateSumOfDoublesInArray(doublesArray) / length;
 }
 
 // Calculates the average among all the numbers inside an array of doubles
@@ -927,100 +949,33 @@ void addTextToFile(const string &fileName) {
     outputFile.close();
 }
 
-// Converts a giving string to lowercase
-void strToLowerCase(string &input) {
-    std::transform(input.begin(), input.end(), input.begin(),
-                   [](const unsigned char c) { return tolower(c); });
-}
-
-// Converts a giving string to uppercase
-void strToUpperCase(string &input) {
-    std::transform(input.begin(), input.end(), input.begin(),
-                   [](const unsigned char c) { return toupper(c); });
-}
-
-// Converts a string to lowercase and returns it
-string getLowerCase(string input) {
-    string destinationString = input;
-    std::transform(input.begin(), input.end(), destinationString.begin(),
-                   [](const unsigned char c) { return tolower(c); });
-    return destinationString;
-}
-
-// Converts a string to uppercase and returns it
-string getUpperCase(string input) {
-    string destinationString = input;
-    std::transform(input.begin(), input.end(), destinationString.begin(),
-                   [](const unsigned char c) { return toupper(c); });
-    return destinationString;
-}
-
 
 // CUSTOM MADE FUNCTIONS DEFINITIONS
 
 
-template<int N>
-void loadRainfalls(const vector<string> &months, double (&rainfalls)[N]) {
-    const int arraySize = sizeof(rainfalls) / sizeof(rainfalls[0]);
-    for (int i = 0; i < arraySize; i++) {
-        rainfalls[i] = getDouble("Enter rainfall for " + months[i], 0, INT_MAX, false, "invalid data (negative rainfall) -- retry");
-    }
+vector<Division> basicDivisionsInitializer() {
+    return {
+        Division {.eDivisionName = East},
+        Division {.eDivisionName = West},
+        Division {.eDivisionName = North},
+        Division {.eDivisionName = South}
+    };
 }
 
-template<int N>
-void loadRainfallsPlus(const vector<string> &months, double (&rainfalls)[N]) {
-    int count {0};
-    for (double &rainfall: rainfalls) {
-        rainfall = getDouble("Enter rainfall for " + months[count], 0, INT_MAX, false, "invalid data (negative rainfall) -- retry");
-        count++;
-    }
-}
-
-// template<size_t a, size_t b>
-template<int N, int M>
-void loadMonkeysFoodArray(const vector<string> &weekDays, double (&monkeysFood)[N][M]) {
-    const int rows = sizeof(monkeysFood) / sizeof(monkeysFood[0]);
-    const int columns = sizeof(monkeysFood[0]) / sizeof(monkeysFood[0][0]);
-
-    for (int row = 0; row < rows; row++) {
-        for (int col = 0; col < columns; col++) {
-            monkeysFood[row][col] = getDouble("Please type how many pounds of food the " + ordinalFromNumber(row + 1) + " monkey will eat on " + weekDays[col], 0, INT_MAX);
-        }
-    }
-}
-
-template<int N, int M>
-void loadMonkeysFoodArraySlim(const vector<string> &weekDays, double (&monkeysFood)[N][M]) {
-    int rowIndex = 0;
-
-    for (auto &row: monkeysFood) {
-        int cellIndex = 0;
-
-        for (auto &cell: row) {
-            cell = getDouble("Please type how many pounds of food the " + ordinalFromNumber(rowIndex + 1) + " monkey will eat on " + weekDays[cellIndex], 0, INT_MAX);
-            cellIndex++;
-        }
-        rowIndex++;
-    }
-}
-
-string getLeastRainfallMonth(const vector<string> &months, double rainfalls[], const int arraySize) {
-    const double *targetPointer = find(&rainfalls[0], rainfalls + arraySize, simpleLowerDoubleInArray(rainfalls, arraySize));
-    const int targetIndex = targetPointer - rainfalls;
-    string leastRainfallMonth = months[targetIndex];
-    return leastRainfallMonth;
-}
-
-string getMostRainfallMonth(const vector<string> &months, double rainfalls[], const int arraySize) {
-    const double *targetPointer = find(&rainfalls[0], rainfalls + arraySize, simpleHigherDoubleInArray(rainfalls, arraySize));
-    const int targetIndex = targetPointer - rainfalls;
-    string mostRainfallMonth = months[targetIndex];
-    return mostRainfallMonth;
-}
-
-void displayResults(const double average, const double lowerAmount, const double higherAmount) {
+void getDivisionsQuarterSales(vector<Division> &divisions) {
     cout << endl;
-    cout << "The average amount of food eaten per day by the whole family of monkeys is " << humanizeDouble(average) << " lbs." << endl;
-    cout << "The least amount of food eaten during the week by any one monkey is " << humanizeDouble(lowerAmount) << " lbs." << endl;
-    cout << "The greatest amount of food eaten during the week by any one monkey is " << humanizeDouble(higherAmount) << " lbs." << endl;
+    for (Division &division: divisions) {
+        const int length = std::size(division.quarterlySales);
+        for (int i = 0; i < length; i++) {
+            division.quarterlySales[i] = getDouble("Type the " + ordinalFromNumber(i + 1) + " quarter sales amount, of the " + division.name() + " division please", 0, LONG_MAX);
+        }
+    }
+}
+
+void displayResults(vector<Division> divisions) {
+    cout << endl;
+    for (Division division: divisions) {
+        cout << "The " << division.name() << " division had an Annual Total Sales of " << monetizeDouble(division.totalAnnualSales());
+        cout << " and an Average Quarterly Sales of " << monetizeDouble(division.averageQuarterlySales()) << endl;
+    }
 }
