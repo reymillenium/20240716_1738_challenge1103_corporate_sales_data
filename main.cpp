@@ -1,20 +1,9 @@
 /**
- * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- *                                                       *
- *       Created by: Reinier Garcia Ramos                *
- *       reymillenium@gmail.com                          *
- *                                                       *
- *       https://www.linkedin.com/in/reiniergarcia       *
- *       https://github.com/reymillenium                 *
- *       https://www.reiniergarcia.dev                   *
- *                                                       *
- * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- **/
-
-/**
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  *                                                                     *
- *   Name: 07-Arrays-intro                                             *
+ *   Name: Reinier Garcia Ramos                                        *
+ *                                                                     *
+ *   Program Title: Corporate Sales Data                               *
  *                                                                     *
  *   Purpose:                                                          *
  *   Receives 10 integers provided by the user from the console,       *
@@ -29,51 +18,27 @@
  **/
 
 #include <iostream>
-#include <string>  // for string, to_string, etc
-#include <cmath> // for sqrt, sin, pow
-#include <climits> // For SHRT_MAX, SHRT_MIN, etc
-#include <limits> // For SHRT_MAX, SHRT_MIN, etc
-#include <iomanip> // for setprecision, setw, fixed
-#include<array>  // for array
-#include<random> // for random_device
-#include <cstdlib> // For rand and srand
-#include <ctime>   // For the time function
-#include <sstream> // for stringstream (used in humanizeInteger, humanizeDouble, etc)
-#include <vector> // to use vectors
-#include <fstream> // For ifstream, ofstrea, fstream
-#include <numeric> // For accumulate, transform_reduce, inner_product (in the vectors)
-#include <algorithm> // For max_element, min_element, find, transform (to use in vectors), or for max(), reverse, count_if
-#include <regex> // For regex, regex_match
-#include <cstring> // For strrev
-#include <filesystem>
+#include <string>
+#include <climits>
+#include <iomanip>
+#include <sstream>
+#include <vector>
+#include <regex>
 #include <map>
 
 using std::cout;
 using std::endl;
 using std::cin;
-using std::cerr;
 using std::fixed;
 using std::setprecision;
-using std::setw;
-using std::setfill;
 using std::string;
 using std::to_string;
 using std::stringstream;
-using std::accumulate;
 using std::vector;
-using std::find;
 using std::regex;
 using std::regex_match;
-using std::regex_search;
-using std::smatch;
-using std::stoi;
 using std::stod;
-using std::isalpha;
-using std::count_if;
-using std::filesystem::exists;
-using std::ifstream;
-using std::ofstream;
-using std::ios_base;
+using std::map;
 
 
 // UTILITY FUNCTIONS PROTOTYPES
@@ -139,10 +104,13 @@ struct Division {
 // CUSTOM MADE FUNCTIONS PROTOTYPES
 
 
+// Initializes the existing divisions with just the eName, returning it
 vector<Division> basicDivisionsInitializer();
 
+// Gets from the user all the sales of all the quarters and for all the divisions
 void getDivisionsQuarterSales(vector<Division> &);
 
+// Displays all the results to the user
 void displayResults(vector<Division> divisions);
 
 
@@ -174,7 +142,6 @@ bool isInteger(const string &input) {
 
 // Determines if a given string is a valid floating point number, using a regular expression
 bool isFloatingPoint(const string &input) {
-    // const regex pattern("^[+-]?[0-9]+(\.[0-9]+)?([eE][+-]?[0-9]+)?$");
     const regex pattern(R"(^[+-]?[0-9]+(.[0-9]+)?([eE][+-]?[0-9]+)?$)");
     return regex_match(input, pattern);
 }
@@ -286,6 +253,7 @@ double templateAverageAmongDoublesInArray(double (&doublesArray)[N]) {
 // CUSTOM MADE FUNCTIONS DEFINITIONS
 
 
+// Initializes the existing divisions with just the eName, returning it
 vector<Division> basicDivisionsInitializer() {
     return {
         Division {.eDivisionName = East},
@@ -295,6 +263,7 @@ vector<Division> basicDivisionsInitializer() {
     };
 }
 
+// Gets from the user all the sales of all the quarters and for all the divisions
 void getDivisionsQuarterSales(vector<Division> &divisions) {
     cout << endl;
     for (Division &division: divisions) {
@@ -305,6 +274,7 @@ void getDivisionsQuarterSales(vector<Division> &divisions) {
     }
 }
 
+// Displays all the results to the user
 void displayResults(vector<Division> divisions) {
     cout << endl;
     for (Division division: divisions) {
