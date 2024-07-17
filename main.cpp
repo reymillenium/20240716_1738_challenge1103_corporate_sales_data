@@ -38,6 +38,7 @@ using std::regex;
 using std::regex_match;
 using std::stod;
 using std::map;
+using std::size;
 
 
 // UTILITY FUNCTIONS PROTOTYPES
@@ -73,16 +74,9 @@ double templateAverageAmongDoublesInArray(double (&)[N]);
 
 enum DivisionName { East, West, North, South };
 
-std::map<DivisionName, string> DIVISION_NAME_MAPPER = {
-    {East, "East"},
-    {West, "West"},
-    {North, "North"},
-    {South, "South"}
-};
-
-
+// Our structure
 struct Division {
-    DivisionName eDivisionName;
+    DivisionName name;
     double quarterlySales[4] {0.0, 0.0, 0.0, 0.0};
 
 
@@ -94,8 +88,14 @@ struct Division {
         return templateAverageAmongDoublesInArray(quarterlySales);
     }
 
-    [[nodiscard]] string name() const {
-        return DIVISION_NAME_MAPPER[eDivisionName];
+    [[nodiscard]] string toString() const {
+        map<DivisionName, string> divisionNameMapper = {
+            {East, "East"},
+            {West, "West"},
+            {North, "North"},
+            {South, "South"}
+        };
+        return divisionNameMapper[name];
     }
 };
 
@@ -103,24 +103,24 @@ struct Division {
 // CUSTOM MADE FUNCTIONS PROTOTYPES
 
 
-// Initializes the existing divisions with just the eName, returning it
-vector<Division> basicDivisionsInitializer();
+// Initializes the four existing divisions with just the eName, returning it
+void divisionsBasicInitialization(vector<Division> &);
 
-// Gets from the user all the sales of all the quarters and for all the divisions
+// Gets from the user the quarterly sales for all the divisions
 void getDivisionsQuarterSales(vector<Division> &);
 
 // Displays all the results to the user
-void displayResults(vector<Division> divisions);
+void displayResults(const vector<Division> &divisions);
 
 
 // Main Function
 int main() {
-    vector<Division> divisions; // All the divisions
+    vector<Division> divisions; // For all the divisions we'll use
 
     // Basic initialization with all the four existing divisions
-    divisions = basicDivisionsInitializer();
+    divisionsBasicInitialization(divisions);
 
-    // Gets from the user all the sales of all the quarters and for all the divisions
+    // Gets from the user the quarterly sales for all the divisions
     getDivisionsQuarterSales(divisions);
 
     // Displays all the results to the user
@@ -194,7 +194,7 @@ string humanizeUnsignedDouble(const long double doubleValue, const int precision
     // Places the decimals into the stream, rounded to two significant digits (by default)
     stream << fixed << setprecision(precision) << decimals;
     // Extracts the decimals from the stream, as a string, still rounded to two significant digits (by default)
-    const string decimalsAsString = stream.str(); // It still includeds the "0" & the dot ("."). Ex: 0.34 (the "0" must be removed next)
+    const string decimalsAsString = stream.str(); // It still includeds the "0" & the dot ("."). Ex: 0.34 (so the "0" must be removed next)
     return humanizeUnsignedInteger(integerValue) + decimalsAsString.substr(1, precision + 1);
 }
 
@@ -252,32 +252,30 @@ double templateAverageAmongDoublesInArray(double (&doublesArray)[N]) {
 // CUSTOM MADE FUNCTIONS DEFINITIONS
 
 
-// Initializes the existing divisions with just the eName, returning it
-vector<Division> basicDivisionsInitializer() {
-    return {
-        Division {.eDivisionName = East},
-        Division {.eDivisionName = West},
-        Division {.eDivisionName = North},
-        Division {.eDivisionName = South}
+// Initializes the four existing divisions with just the eName, returning it
+void divisionsBasicInitialization(vector<Division> &division) {
+    division = {
+        Division {.name = East}, Division {.name = West}, Division {.name = North}, Division {.name = South}
     };
 }
 
-// Gets from the user all the sales of all the quarters and for all the divisions
+// Gets from the user the quarterly sales for all the divisions
 void getDivisionsQuarterSales(vector<Division> &divisions) {
     cout << endl;
+    const size_t quartersAmount = size(divisions[0].quarterlySales);
     for (Division &division: divisions) {
-        const int length = std::size(division.quarterlySales);
-        for (int i = 0; i < length; i++) {
-            division.quarterlySales[i] = getDouble("Type the " + ordinalFromNumber(i + 1) + " quarter sales amount, of the " + division.name() + " division please", 0, LONG_MAX);
+        for (int i = 0; i < quartersAmount; i++) {
+            const string message = "Type the " + ordinalFromNumber(i + 1) + " quarter sales amount, of the " + division.toString() + " division please";
+            division.quarterlySales[i] = getDouble(message, 0, LONG_MAX);
         }
     }
 }
 
 // Displays all the results to the user
-void displayResults(vector<Division> divisions) {
+void displayResults(const vector<Division> &divisions) {
     cout << endl;
     for (Division division: divisions) {
-        cout << "The " << division.name() << " division had an Annual Total Sales of " << monetizeDouble(division.totalAnnualSales());
+        cout << "The " << division.toString() << " division had an Annual Total Sales of " << monetizeDouble(division.totalAnnualSales());
         cout << " and an Average Quarterly Sales of " << monetizeDouble(division.averageQuarterlySales()) << endl;
     }
 }
