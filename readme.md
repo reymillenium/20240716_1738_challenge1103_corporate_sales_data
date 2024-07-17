@@ -1,28 +1,24 @@
 # COP 1334 Assignment - Introduction to C++
 
-## Chapter 11 Programming Assignment
+## Chapter 11 Challenge 3
 
-## Title: Struct Circle
+## Title: Corporate Sales Data
 
 ### Exercise Description:
 
-Create a complete program that defines a structure with
+Write a program that uses a structure to store the following data on a company division:
 
-int radius
+- Division Name (such as East, West, North, or South)
+- First-Quarter Sales
+- Second-Quarter Sales
+- Third-Quarter Sales
+- Fourth-Quarter Sales
+- Total Annual Sales
+- Average Quarterly Sales
 
-double circumference
+The program should use four variables of this structure. Each variable should represent one of the following corporate divisions: East, West, North, and South. The user should be asked for the four quarters’ sales figures for each division. Each division’s total and average sales should be calculated and stored in the appropriate member of each structure variable. These figures should then be displayed on the screen.
 
-double area
-
-Write functions
-
-getCircleInfo()
-
-calcCircumference
-
-calcArea
-
-displayCircleInfo
+_Input Validation: Do not accept negative numbers for any sales figures._
 
 ## Execution from the Terminal (Alternative way without an IDE):
 
@@ -51,31 +47,27 @@ And in order to run that a.out file, we must execute on the terminal:
 ```terminal
 reinier@reinier % ./your_prefered_executable_file_name
 
-Welcome to Circle Setter Pro
+Type the 1st quarter sales amount, of the East division please: 3232
+Type the 2nd quarter sales amount, of the East division please: 2342
+Type the 3rd quarter sales amount, of the East division please: 5454
+Type the 4th quarter sales amount, of the East division please: 5645
+Type the 1st quarter sales amount, of the West division please: 5645
+Type the 2nd quarter sales amount, of the West division please: 7667
+Type the 3rd quarter sales amount, of the West division please: 5678
+Type the 4th quarter sales amount, of the West division please: 8975
+Type the 1st quarter sales amount, of the North division please: 5443
+Type the 2nd quarter sales amount, of the North division please: 6665
+Type the 3rd quarter sales amount, of the North division please: 9887
+Type the 4th quarter sales amount, of the North division please: 2333
+Type the 1st quarter sales amount, of the South division please: 5544
+Type the 2nd quarter sales amount, of the South division please: 4555
+Type the 3rd quarter sales amount, of the South division please: 5444
+Type the 4th quarter sales amount, of the South division please: 6676
 
-1. Demonstration using a Circle structure variable.
-2. Another demonstration using an AlternativeCircle structure variable.
-3. Quit the program.
-
-Type your selection please (1 - 3): 1
-Type the radius of the circle please (in): 23
-
-A circle with a radius of 23 in has an area of 1,661.90 in² and a circumference of 144.51 in.
-
-1. Demonstration using a Circle structure variable.
-2. Another demonstration using an AlternativeCircle structure variable.
-3. Quit the program.
-
-Type your selection please (1 - 3): 2
-Type the radius of the alternative circle please (in): 23
-
-A circle with a radius of 23 in has an area of 1,661.90 in² and a circumference of 144.51 in.
-
-1. Demonstration using a Circle structure variable.
-2. Another demonstration using an AlternativeCircle structure variable.
-3. Quit the program.
-
-Type your selection please (1 - 3): 3
+The East division had an Annual Total Sales of $ 16,673.00 and an Average Quarterly Sales of $ 4,168.25
+The West division had an Annual Total Sales of $ 27,965.00 and an Average Quarterly Sales of $ 6,991.25
+The North division had an Annual Total Sales of $ 24,328.00 and an Average Quarterly Sales of $ 6,082.00
+The South division had an Annual Total Sales of $ 22,219.00 and an Average Quarterly Sales of $ 5,554.75
 
 Process finished with exit code 0
   

@@ -1,20 +1,19 @@
 /**
- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- *                                                                     *
- *   Name: Reinier Garcia Ramos                                        *
- *                                                                     *
- *   Program Title: Corporate Sales Data                               *
- *                                                                     *
- *   Purpose:                                                          *
- *   Receives 10 integers provided by the user from the console,       *
- *   and stores them in an array. And then based on them, it           *
- *   calculates the sum, the average and the largest element.          *
- *                                                                     *
- *   More Details:                                                     *
- *   https://github.com/reymillenium/20240621_0127_arrays_intro        *
- *                                                                     *
- *                                                                     *
- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ *                                                                                       *
+ *   Name: Reinier Garcia Ramos                                                          *
+ *                                                                                       *
+ *   Program Title: Corporate Sales Data                                                 *
+ *                                                                                       *
+ *   Purpose:                                                                            *
+ *   Receives from the user all the quarter sales for all the four existing divisions    *
+ *   (East, West, North & South) and then renders on the terminal per Division the       *
+ *   Total AnnualSales  and the averageQuarterlySales.                                   *
+ *                                                                                       *
+ *   More Details:                                                                       *
+ *   https://github.com/reymillenium/20240716_1738_challenge1103_corporate_sales_data    *
+ *                                                                                       *
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  **/
 
 #include <iostream>
